@@ -1,28 +1,37 @@
+
 /**
- * Simple node.js server to handle SOAP requests
- * asynchronously.
+ * Module dependencies.
  */
 
-var app = express.createServer();
+var express = require('express')
+  , routes = require('./routes')
 
-function validate(query) {
-  if (typeof query['key'] == 'undefined') {
-    return false;
-  }
-}
+var app = module.exports = express.createServer();
 
-app.get('/', function(req, res) {
-  console.log('Handling request.');
-  var dest = url.parse(req.url, true);
+// Configuration
 
-  if (!validate(dest.query)) {
-    console.log('Malformed request.');
-    res.render('error', { status: 500, message: 'Malformed request.' });
-    return;
-  }
-
-  res.send('Yo!');
+app.configure(function(){
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(app.router);
+  app.use(express.static(__dirname + '/public'));
 });
 
-app.listen(1337);
-console.log('Started server.');
+app.configure('development', function(){
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+});
+
+app.configure('production', function(){
+  app.use(express.errorHandler()); 
+});
+
+// Routes
+
+app.get('/', routes.index);
+app.get('/request', routes.request);
+app.post('/request', routes.request);
+
+app.listen(3000);
+console.log("soapq.js server listening on port %d in %s mode", app.address().port, app.settings.env);
