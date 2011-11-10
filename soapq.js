@@ -3,8 +3,7 @@
  * asynchronously.
  */
 
-var http = require('http');
-var url = require('url');
+var app = express.createServer();
 
 function validate(query) {
   if (typeof query['key'] == 'undefined') {
@@ -12,22 +11,18 @@ function validate(query) {
   }
 }
 
-function onRequest(req, res) {
+app.get('/', function(req, res) {
   console.log('Handling request.');
   var dest = url.parse(req.url, true);
 
   if (!validate(dest.query)) {
     console.log('Malformed request.');
-    res.writeHead(500, {'Content-Type': 'text/plain'});
-    res.write('Malformed request.');
-    res.end();
+    res.render('error', { status: 500, message: 'Malformed request.' });
     return;
   }
 
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.write('Yo!');
-  res.end();
-}
+  res.send('Yo!');
+});
 
-http.createServer(onRequest).listen(1337, '172.16.124.128');
+app.listen(1337);
 console.log('Started server.');
