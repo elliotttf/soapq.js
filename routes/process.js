@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var db = mongoose.connect('mongodb://localhost/soapq');
 var requests = require('../models/models.js').requests;
 var http = require('http');
+var https = require('https');
 var url = require('url');
 
 exports.process = function(key) {
@@ -20,12 +21,16 @@ exports.process = function(key) {
     // Handle each request serially.
     for (x in doc.payload) {
       payload = doc.payload[x];
-      var wsdl = url.parse(payload.wsdl);
+      var endpoint = url.parse(payload.endpoint);
       var options = {
-          host: wsdl.host
-        , port: wsdl.port
-        , path: wsdl.pathname
+          host: endpoint.host
+        , path: endpoint.pathname
         , method: 'POST'
+        , headers: {
+            'Content-Type': 'text/xml'
+          , 'Content-Length': payload.envelope.length
+          , 'SOAPAction': payload.method
+        }
       }
 
       if (typeof payload.security != 'undefined') {
@@ -33,24 +38,66 @@ exports.process = function(key) {
       }
 
       // Send along the stuff!
-      console.log("Sending request to " + payload.wsdl);
+      console.log("Sending request to " + payload.endpoint);
       // TODO - make this block the next request.
-      // TODO - handle errors and such.
-      var req = http.request(options, function(res) { respond(res, doc); });
-      req.on('error', function(e) {
-        console.log(e);
-        console.log('There was a problem processing request with key: ' + doc.key + ' and endpoint: ' + payload.wsdl);
-      });
-      req.write(payload.envelope);
-      req.end();
+      if (endpoint.protocol == 'https:') {
+        var req = https.request(options, function(res) { respond(res, doc); });
+      }
+      else {
+        var req = http.request(options, function(res) { respond(res, doc); });
+      }
+
+      try {
+        req.on('error', function(e) {
+          console.log('There was a problem processing request with key: ' + doc.key + ' and endpoint: ' + payload.endpoint);
+        });
+        req.write(payload.envelope);
+        req.end();
+      }
+      catch (e) {
+        console.log('There was a problem connecting to the API endpoint: ' + payload.endpoint);
+      }
     }
   });
 };
 
 function respond(res, doc) {
-  // Respond to the callback with the result.
-  console.log("Sending response to " + doc.callback);
+  var response = '';
+  res.on('data', function (chunk) {
+    response += chunk;
+  });
 
-  // TODO - only delete if the shit wend off ok!
+  res.on('end', function() {
+    var response_json = {
+        status: res.statusCode
+      , envelope: response
+    }
 
+    // Respond to the callback with the result.
+    console.log("Sending response to " + doc.callback);
+
+    var callback = url.parse(doc.callback);
+    var options = {
+        host: callback.host
+      , path: callback.path
+      , method: 'POST'
+    };
+
+    var req = http.request(options, function(res) {
+      req.on('end', function() {
+        // TODO - delete the request from the database.
+      });
+    });
+
+    try {
+      req.on('error', function(e) {
+        console.log('There was a problem calling back ' + doc.callback + ' with the result.');
+      });
+      req.write(response_json);
+      req.end();
+    }
+    catch (e) {
+      console.log('There was a problem connecting to the callback server: ' + doc.callback);
+    }
+  });
 }
