@@ -74,26 +74,42 @@ function respond(res, doc) {
     }
 
     // Respond to the callback with the result.
-    console.log("Sending response to " + doc.callback);
+    console.log('Sending response to: ' + doc.callback);
 
     var callback = url.parse(doc.callback);
     var options = {
         host: callback.host
       , path: callback.path
       , method: 'POST'
+      , headers: {
+          'Content-Type': 'application/json'
+        , 'Content-Length': response.length
+      }
     };
 
     var req = http.request(options, function(res) {
-      req.on('end', function() {
+      var client_response = '';
+      res.on('data', function (chunk) {
+        client_response += chunk;
+      });
+
+      res.on('end', function() {
+        client_response = JSON.parse(client_response);
+        if (client_response.status == true) {
+          console.log('Sent response to: ' + doc.callback + ' server responded with: ' + client_response.data);
+        }
+        else {
+          console.log('There was a problem sending the response to: ' + doc.callback);
+        }
         // TODO - delete the request from the database.
       });
     });
 
     try {
       req.on('error', function(e) {
-        console.log('There was a problem calling back ' + doc.callback + ' with the result.');
+        console.log('There was a problem calling back: ' + doc.callback + ' with the result.');
       });
-      req.write(response_json);
+      req.write(JSON.stringify(response_json));
       req.end();
     }
     catch (e) {
