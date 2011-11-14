@@ -30,6 +30,7 @@ app.configure('production', function(){
 
 // Routes.
 app.get('/', routes.index);
+app.get('/heartbeat', routes.heartbeat);
 app.get('/request', routes.request);
 app.post('/request', routes.request);
 
