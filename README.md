@@ -9,7 +9,7 @@ client
 soapq.js can be accessed using any HTTP client. A request to process should be a JSON
 object containing the following data:
 
-<code>
+```
 {
   key: the unique key for a given set of requests
   callback: URL to respond to with the results of the API call
@@ -25,7 +25,7 @@ object containing the following data:
       password: the API password
     }
 }
-</code>
+```
 
 callback response
 -----------------
