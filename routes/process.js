@@ -29,7 +29,6 @@ exports.process = function(key) {
         , headers: {
             'Content-Type': 'text/xml'
           , 'Content-Length': payload.envelope.length
-          , 'SOAPAction': payload.method
         }
       }
 
@@ -72,6 +71,7 @@ function respond(res, doc) {
         status: res.statusCode
       , envelope: response
     }
+    response_json = JSON.stringify(response_json);
 
     // Respond to the callback with the result.
     console.log('Sending response to: ' + doc.callback);
@@ -83,7 +83,7 @@ function respond(res, doc) {
       , method: 'POST'
       , headers: {
           'Content-Type': 'application/json'
-        , 'Content-Length': response.length
+        , 'Content-Length': response_json.length
       }
     };
 
@@ -109,7 +109,7 @@ function respond(res, doc) {
       req.on('error', function(e) {
         console.log('There was a problem calling back: ' + doc.callback + ' with the result.');
       });
-      req.write(JSON.stringify(response_json));
+      req.write(response_json);
       req.end();
     }
     catch (e) {
