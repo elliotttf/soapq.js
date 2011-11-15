@@ -1,4 +1,4 @@
-soapq.sj
+soapq.js
 =======
 
 A simple node server to process SOAP API requests and callback with the results.
