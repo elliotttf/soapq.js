@@ -5,6 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , pre = require('./preprocess.js')
 
 var app = module.exports = express.createServer();
 
@@ -26,7 +27,8 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-// TODO - process any pending requests.
+// Process any pending requests.
+pre.process();
 
 // Routes.
 app.get('/', routes.index);

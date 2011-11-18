@@ -38,7 +38,7 @@ exports.process = function(key) {
 
       // Send along the stuff!
       console.log("Sending request to " + payload.endpoint);
-      // TODO - make this block the next request.
+      // TODO - make this block the next request?
       if (endpoint.protocol == 'https:') {
         var req = https.request(options, function(res) { respond(res, doc); });
       }
@@ -97,11 +97,14 @@ function respond(res, doc) {
         client_response = JSON.parse(client_response);
         if (client_response.status == true) {
           console.log('Sent response to: ' + doc.callback + ' server responded with: ' + client_response.data);
+          var Model = mongoose.model('requests', requests);
+          Model.remove({ 'key': doc.key }, function(err) {
+            console.log('Removed request: ' + doc.key);
+          });
         }
         else {
           console.log('There was a problem sending the response to: ' + doc.callback);
         }
-        // TODO - delete the request from the database.
       });
     });
 
