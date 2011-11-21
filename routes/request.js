@@ -1,11 +1,7 @@
 /**
  * GET send page.
  */
-var process = require('./process.js').process;
-var mongoose = require('mongoose');
-var db = mongoose.connect('mongodb://localhost/soapq');
-var requests = require('../models/models.js').requests;
-mongoose.model('requests', requests);
+var SOAPQ = require('../lib/soapq.js').SOAPQ;
 
 exports.request = function(req, res){
   console.log('Incoming send request.');
@@ -37,25 +33,17 @@ exports.request = function(req, res){
     return;
   }
 
-  // Store the request and respond to the client.
-  var Request = mongoose.model('requests');
+  // Rock 'n' roll.
+  var soapq = new SOAPQ(params.key, params.payload, params.callback);
 
-  var request = new Request();
-  request.key = params.key;
-  request.payload = params.payload;
-  request.callback = params.callback;
-  request.save(function(err, req_Saved) {
-    if (err) {
-      console.log(err);
-      res.send('error handling request', 500);
-      return;
-    }
-
-    // Process the request.
-    console.log('processing request');
+  soapq.save();
+  soapq.on('savedRequest', function(message) {
     res.send('processing request');
-    process(params.key);
+    console.log(message);
+    soapq.request();
   });
+
+  // TODO - handle all the various errors that could occur in process.
 };
 
 function validate(params) {
