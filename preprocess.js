@@ -12,7 +12,7 @@ exports.process = function() {
   Model.find({}, function (err, docs) {
     for (x in docs) {
       var doc = docs[x];
-      var soapq = new SOAPQ(doc.key, doc.payload, doc.callback);
+      var soapq = new SOAPQ(doc.key, doc.payload, doc.respondURL);
       soapq.request();
     }
   });
