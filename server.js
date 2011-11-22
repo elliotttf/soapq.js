@@ -3,14 +3,14 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , pre = require('./preprocess.js')
+var express = require('express'),
+    routes = require('./routes'),
+    pre = require('./preprocess.js');
 
 var app = module.exports = express.createServer();
 
 // Configuration.
-app.configure(function(){
+app.configure(function() {
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
@@ -19,11 +19,11 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
 });
 
-app.configure('development', function(){
+app.configure('development', function() {
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
-app.configure('production', function(){
+app.configure('production', function() {
   app.use(express.errorHandler());
 });
 
@@ -37,4 +37,4 @@ app.get('/request', routes.request);
 app.post('/request', routes.request);
 
 app.listen(3000);
-console.log("soapq.js server listening on port %d in %s mode", app.address().port, app.settings.env);
+console.log('soapq.js server listening on port %d in %s mode', app.address().port, app.settings.env);

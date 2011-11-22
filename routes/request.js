@@ -1,9 +1,18 @@
 /**
- * GET send page.
+ * @fileoverview Handles incoming requests and kicks off
+ *   the soapq process.
  */
 var SOAPQ = require('../lib/soapq.js').SOAPQ;
 
-exports.request = function(req, res){
+/**
+ * Handles an incoming request.
+ *
+ * @param {object} req
+ *   The request object.
+ * @param {object} res
+ *   The response object.
+ */
+exports.request = function(req, res) {
   console.log('Incoming send request.');
 
   var params = null;
@@ -26,8 +35,8 @@ exports.request = function(req, res){
   if (valid != true) {
     console.log(valid);
     var msg = 'Unknown error.';
-    if (valid == "missing key") {
-      msg = "Missing 'key'.";
+    if (valid == 'missing key') {
+      msg = 'Missing key.';
     }
     res.send(msg, 500);
     return;
@@ -42,13 +51,11 @@ exports.request = function(req, res){
     console.log(message);
     soapq.request();
   });
-
-  // TODO - handle all the various errors that could occur in process.
 };
 
 function validate(params) {
   if (typeof params.key == 'undefined') {
-    return "missing key";
+    return 'missing key';
   }
 
   return true;
