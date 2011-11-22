@@ -27,6 +27,16 @@ object containing the following data:
 }
 ```
 
+The soapq server will respond to the given callback with a JSON object containing
+the operation status and an array of responses:
+
+```
+{
+  status: (true|false)
+  responses: array of SOAP response XML
+}
+```
+
 callback response
 -----------------
 
@@ -34,3 +44,10 @@ soapq.js expets a JSON response from the callback as follows:
 <code>{ status: (true|false), data: message }</code>
 
 if the callback worked, true should be returned in the status field.
+
+pseudo transactions
+-------------------
+
+You can simulate a transaction by sending an array of requests in the request payload.
+The soapq server will process each request in the order you send them and will
+return the results in the order they were requested in.
