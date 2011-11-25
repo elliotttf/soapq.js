@@ -3,9 +3,9 @@
  * Module dependencies.
  */
 
-var express = require('express'),
-    routes = require('./routes'),
-    pre = require('./preprocess.js');
+var express = require('express');
+var routes = require('./routes');
+var pre = require('./preprocess.js');
 
 var app = module.exports = express.createServer();
 
