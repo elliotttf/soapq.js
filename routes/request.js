@@ -2,7 +2,7 @@
  * @fileoverview Handles incoming requests and kicks off
  *   the soapq process.
  */
-var SOAPQ = require('../lib/soapq.js').SOAPQ;
+var SoapQ = require('../lib/soapq.js').SoapQ;
 
 /**
  * Handles an incoming request.
@@ -43,13 +43,33 @@ exports.request = function(req, res) {
   }
 
   // Rock 'n' roll.
-  var soapq = new SOAPQ(params.key, params.payload, params.callback);
+  var soapq = new SoapQ(params.key, params.payload, params.callback);
 
+  // Save the request to the database and kick off the request chain.
   soapq.save();
-  soapq.on('savedRequest', function(message) {
+  soapq.on('savedRequest', function savedRequest(message) {
     res.send('processing request');
     console.log(message);
     soapq.request();
+  });
+
+  // After all requests have been made, respond to the callback.
+  soapq.on('requestedRequests', function requestedRequests(message) {
+    console.log(message);
+    soapq.respond();
+  });
+
+  // If there was an error during processing log it and set the request
+  // status to false.
+  soapq.on('requestErrors', function requestErrors(message) {
+    console.log(message);
+    soapq.requestStatus = false;
+    soapq.respond();
+  });
+
+  // After the request was processed, remove it from the database.
+  soapq.on('processedRequest', function processedRequest(message) {
+    soapq.remove();
   });
 };
 
