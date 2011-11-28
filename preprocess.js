@@ -13,6 +13,10 @@ exports.process = function() {
   console.log('Processing queued requests.');
   var Model = mongoose.model('requests', requests);
   Model.find({}, function(err, docs) {
+    if (err) {
+      console.log(err);
+      return;
+    }
     for (x in docs) {
       var doc = docs[x];
       var soapq = new SoapQ(doc.key, doc.payload, doc.respondURL);

@@ -43,14 +43,36 @@ exports.request = function(req, res) {
   }
 
   // Rock 'n' roll.
+  var handled = false;
   var soapq = new SoapQ(params.key, params.payload, params.callback);
+  res.send('processing request');
 
   // Save the request to the database and kick off the request chain.
   soapq.save();
   soapq.on('savedRequest', function savedRequest(message) {
-    res.send('processing request');
-    console.log(message);
-    soapq.request();
+    if (!handled) {
+      handled = true;
+      console.log(message);
+      soapq.request();
+    }
+  });
+
+  // We can most likely process the request without saving it to
+  // the database BUT this is a huge problem if the soapq server
+  // goes down for some reason.
+  soapq.on('errorConnectingDB', function dangerZone(message) {
+    if (!handled) {
+      handled = true;
+      console.log('Danger zone! Request being handled without DB backing (' + params.key + ')');
+      soapq.request();
+    }
+  });
+  soapq.on('errorSavingRequest', function dangerZone(message) {
+    if (!handled) {
+      handled = true;
+      console.log('Danger zone! Request being handled without DB backing (' + params.key + ')');
+      soapq.request();
+    }
   });
 
   // After all requests have been made, respond to the callback.
