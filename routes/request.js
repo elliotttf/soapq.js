@@ -34,11 +34,7 @@ exports.request = function(req, res) {
   var valid = validate(params);
   if (valid != true) {
     console.log(valid);
-    var msg = 'Unknown error.';
-    if (valid == 'missing key') {
-      msg = 'Missing key.';
-    }
-    res.send(msg, 500);
+    res.send(valid, 500);
     return;
   }
 
@@ -112,13 +108,13 @@ exports.request = function(req, res) {
  */
 function validate(params) {
   if (typeof params.key === 'undefined') {
-    return 'missing key';
+    return 'Missing key.';
   }
   if (typeof params.callback === 'undefined') {
-    return 'missing callback';
+    return 'Missing callback.';
   }
   if (typeof params.payload === 'undefined') {
-    return 'missing payload';
+    return 'Missing payload.';
   }
 
   return true;
