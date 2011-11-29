@@ -63,14 +63,20 @@ exports.request = function(req, res) {
   soapq.on('errorConnectingDB', function dangerZone(message) {
     if (!handled) {
       handled = true;
-      console.log('Danger zone! Request being handled without DB backing (' + params.key + ')');
+      console.log(
+        'Danger zone! Request being handled without DB backing (' +
+        params.key + ')'
+      );
       soapq.request();
     }
   });
   soapq.on('errorSavingRequest', function dangerZone(message) {
     if (!handled) {
       handled = true;
-      console.log('Danger zone! Request being handled without DB backing (' + params.key + ')');
+      console.log(
+        'Danger zone! Request being handled without DB backing (' +
+        params.key + ')'
+      );
       soapq.request();
     }
   });
@@ -95,9 +101,24 @@ exports.request = function(req, res) {
   });
 };
 
+/**
+ * Validates parameters for an incoming request.
+ *
+ * @param {object} params
+ *   The request parameters that will be used to kickoff the process.
+ *
+ * @return {mixed}
+ *   true if the params validate, else an error message.
+ */
 function validate(params) {
-  if (typeof params.key == 'undefined') {
+  if (typeof params.key === 'undefined') {
     return 'missing key';
+  }
+  if (typeof params.callback === 'undefined') {
+    return 'missing callback';
+  }
+  if (typeof params.payload === 'undefined') {
+    return 'missing payload';
   }
 
   return true;

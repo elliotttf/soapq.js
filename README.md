@@ -16,14 +16,13 @@ object containing the following data:
   payload: an array of API requests:
     [{
       endpoint: URL to send the API request to
-      method: The SOAP method to call
       envelope: a SOAP XML envelope to send to the server
+      security: (optional) httpauth information for the API endpoint
+        {
+          username: the API user
+          password: the API password
+        }
     }]
-  security: (optional) httpauth information for the API endpoint
-    {
-      username: the API user
-      password: the API password
-    }
 }
 ```
 
