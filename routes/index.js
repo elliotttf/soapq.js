@@ -13,6 +13,11 @@ exports.heartbeat = require('./heartbeat.js').heartbeat;
 exports.request = require('./request.js').request;
 
 /**
+ * Defines the register page.
+ */
+exports.register = require('./register.js').register;
+
+/**
  * Handles an incoming request.
  *
  * @param {object} req

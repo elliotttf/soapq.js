@@ -1,0 +1,23 @@
+h1= title
+- if (messages)
+  #messages
+    messages
+form(id='register-form', method='post')
+  #mail-wrapper
+    label E-mail:
+      span.form-required *
+      input(id='edit-mail', name='mail')
+  #domain-wrapper
+    label Domain:
+      span.form-required *
+      input(id='edit-domain', name='domain')
+  #global-wrapper
+    label Global:
+      input(type='checkbox', id='edit-global', name='global')
+  #submit-wrapper
+    input(type='submit', value='Register', id='edit-submit', name='submit')
+
+#footer
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js')
+  script(src='/javascripts/jquery-validation/jquery.validate.js')
+  script(src='/javascripts/validate.js')

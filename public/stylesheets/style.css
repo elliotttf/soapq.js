@@ -6,3 +6,17 @@ body {
 a {
   color: #00B7FF;
 }
+
+/* Required field */
+.form-required {
+  color: #FF0000;
+}
+
+/* Error highlighting */
+label.error {
+  color: #FF0000;
+}
+input.error {
+  border: 2px solid #FF0000;
+}
+

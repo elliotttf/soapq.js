@@ -30,11 +30,21 @@ app.configure('production', function() {
 // Process any pending requests.
 pre.process();
 
-// Routes.
+/**
+ * Routes.
+ */
 app.get('/', routes.index);
+
+// Returns a heartbeat message.
 app.get('/heartbeat', routes.heartbeat);
+
+// Accepts an incoming request.
 app.get('/request', routes.request);
 app.post('/request', routes.request);
+
+// Allows users to register new API keys.
+app.get('/register', routes.register);
+app.post('/register', routes.register);
 
 app.listen(3000);
 console.log('soapq.js server listening on port %d in %s mode', app.address().port, app.settings.env);
