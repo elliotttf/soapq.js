@@ -59,6 +59,10 @@ exports.request = function(req, res) {
   });
 
   // Handle any errors and respond.
+  user.on('loadError', function errorLoading(message) {
+    console.log(message);
+    res.send(message, 401);
+  });
   user.on('errorAuthenticating', function errorAuthenticating(message) {
     console.log(message + ' (' + params.apiKey + ')');
     res.send(message, 401);

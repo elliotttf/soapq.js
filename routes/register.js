@@ -51,7 +51,13 @@ function saveNew(req, res, messages) {
   var user = new SoapQUser(req.body.mail, req.body.domain);
   user.validate();
 
-  user.on('error', function pushError(err) {
+  user.on('loadError', function pushError(err) {
+    messages.error.push(err);
+  });
+  user.on('validationError', function pushError(err) {
+    messages.error.push(err);
+  });
+  user.on('saveError', function pushError(err) {
     messages.error.push(err);
   });
 
