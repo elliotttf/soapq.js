@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - SoapQ</title>
+		<title>JsDoc Reference - SoapQUser</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -204,7 +204,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class SoapQ
+				Class SoapQUser
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -217,13 +217,13 @@ ul.inheritsList
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/_home_elliotttf_soapq_lib_soapq.js.html">soapq.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/_home_elliotttf_soapq_lib_users.js.html">users.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class SoapQ.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class SoapQUser.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -236,9 +236,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/SoapQ.html#constructor">SoapQ</a></b>(key, payload, respondURL)
+								<b><a href="../symbols/SoapQUser.html#constructor">SoapQUser</a></b>(email, domain, key)
 							</div>
-							<div class="description">Base class constructor.</div>
+							<div class="description">Base user class.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -247,40 +247,12 @@ ul.inheritsList
 
 <!-- ============================== properties summary ===================== -->
 			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class SoapQ.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								SoapQ.<b><a href="../symbols/SoapQ.html#.RETRY_THRESHOLD">RETRY_THRESHOLD</a></b>
-								</div>
-								<div class="description">Maximum number of times to retry a failed request.</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
-			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class SoapQ.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class SoapQUser.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -293,54 +265,54 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/SoapQ.html#load">load</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/SoapQUser.html#authenticate">authenticate</a></b>()
 								</div>
-								<div class="description">Loads an existing soapq request from the database.</div>
+								<div class="description">Authenticates the API request.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/SoapQUser.html#-dbError">dbError</a></b>(err)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/SoapQUser.html#-foundOne">foundOne</a></b>(err, doc)
+								</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/SoapQ.html#remove">remove</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/SoapQUser.html#remove">remove</a></b>()
 								</div>
-								<div class="description">Removes the soapq request from the database.</div>
+								<div class="description">Deletes the user from the database.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/SoapQ.html#request">request</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/SoapQUser.html#save">save</a></b>()
 								</div>
-								<div class="description">Sends the soapq request to the remote server.</div>
+								<div class="description">Saves the user in the database.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/SoapQ.html#requestOne">requestOne</a></b>(payload)
+								<div class="fixedFont"><b><a href="../symbols/SoapQUser.html#validate">validate</a></b>()
 								</div>
-								<div class="description">Sends a single request to the SOAP server.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/SoapQ.html#respond">respond</a></b>()
-								</div>
-								<div class="description">Responds to the respond callback with the SOAP result.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/SoapQ.html#save">save</a></b>()
-								</div>
-								<div class="description">Adds the soapq request to the database.</div>
+								<div class="description">Validates new user information before saving.</div>
 							</td>
 						</tr>
 					
@@ -361,11 +333,11 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>SoapQ</b>(key, payload, respondURL)
+						<b>SoapQUser</b>(email, domain, key)
 				</div>
 				
 				<div class="description">
-					Base class constructor.
+					Base user class.
 					
 				</div>
 				
@@ -377,22 +349,24 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
+								<span class="light fixedFont">{string}</span>  <b>email</b>
+								
+							</dt>
+								<dd>The user's email address.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{string}</span>  <b>domain</b>
+								
+							</dt>
+								<dd>The domain the API will be used from.</dd>
+						
+							<dt>
 								<span class="light fixedFont">{string}</span>  <b>key</b>
 								
 							</dt>
-								<dd>The request key that will be stored in the database.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{array}</span>  <b>payload</b>
-								
-							</dt>
-								<dd>The payload to send to the remote SOAP server.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{string}</span>  <b>respondURL</b>
-								
-							</dt>
-								<dd>The location to return the SOAP result to.</dd>
+								<dd>(optional) The API key for this user. If this value
+  is passed in email and domain will be ignored and
+  the user will be loaded from the database.</dd>
 						
 						</dl>
 					
@@ -408,33 +382,6 @@ ul.inheritsList
 
 <!-- ============================== field details ========================== -->		
 			
-				<div class="sectionTitle">
-					Field Detail
-				</div>
-				
-					<a name=".RETRY_THRESHOLD"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">SoapQ.</span><b>RETRY_THRESHOLD</b>
-					
-					</div>
-					<div class="description">
-						Maximum number of times to retry a failed request.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					
-				
-			
 
 <!-- ============================== method details ========================= -->		
 			
@@ -442,21 +389,99 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="load"> </a>
+					<a name="authenticate"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>load</b>()
+					<b>authenticate</b>()
 					
 					</div>
 					<div class="description">
-						Loads an existing soapq request from the database.
+						Authenticates the API request.
 						
 						
 					</div>
 					
 					
 					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="-dbError"> </a>
+					<div class="fixedFont">&lt;inner&gt; 
+					
+					
+					<b>dbError</b>(err)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>err</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="-foundOne"> </a>
+					<div class="fixedFont">&lt;inner&gt; 
+					
+					
+					<b>foundOne</b>(err, doc)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>err</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>doc</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
 						
 						
 						
@@ -475,98 +500,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Removes the soapq request from the database.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="request"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>request</b>()
-					
-					</div>
-					<div class="description">
-						Sends the soapq request to the remote server.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="requestOne"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>requestOne</b>(payload)
-					
-					</div>
-					<div class="description">
-						Sends a single request to the SOAP server.
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{object}</span> <b>payload</b>
-									
-								</dt>
-								<dd>An object containing the following:
-   <ul>
-     <li>endpoint - the SOAP server to contact.</li>
-     <li>envelope - the SOAP envelope to send.</li>
-     <li>security (optional) - the SOAP server httpauth credentials.</li>
-   </ul></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="respond"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>respond</b>()
-					
-					</div>
-					<div class="description">
-						Responds to the respond callback with the SOAP result.
+						Deletes the user from the database.
 						
 						
 					</div>
@@ -591,7 +525,32 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Adds the soapq request to the database.
+						Saves the user in the database.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="validate"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>validate</b>()
+					
+					</div>
+					<div class="description">
+						Validates new user information before saving.
 						
 						
 					</div>

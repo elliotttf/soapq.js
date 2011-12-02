@@ -3,6 +3,13 @@ soapq.js
 
 A simple node server to process SOAP API requests and callback with the results.
 
+api keys
+--------
+
+You can generate a new API key for a client by visiting /register and submitting
+the form. A uuid will be generated for the API key and the information stored
+in the users table.
+
 client
 ------
 
@@ -11,7 +18,8 @@ object containing the following data:
 
 ```
 {
-  key: the unique key for a given set of requests
+  apiKey: the API key for the requesting client
+  requestKey: the unique key for a given set of requests
   callback: URL to respond to with the results of the API call
   payload: an array of API requests:
     [{
