@@ -1,7 +1,17 @@
 h1= title
-- if (messages)
-  #messages
-    messages
+- if (messages.notice.length)
+  ul#messages-notice
+    for message in messages.notice
+      li.message-notice #{message}
+- if (messages.warning.length)
+  ul#messages-warning
+    for message in messages.warning
+      li.message-warning #{message}
+-if (messages.error.length)
+  ul#messages-error
+    for message in messages.error
+      li.message-error #{message}
+
 form(id='register-form', method='post')
   #mail-wrapper
     label E-mail:

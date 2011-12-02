@@ -19,7 +19,7 @@ exports.requests = new Schema({
  */
 exports.users = new Schema({
   key: { type: String, index: true, unique: true },
-  email: String,
+  email: { type: String, index: true },
   domain: String,
   active: Boolean,
   created: Number,

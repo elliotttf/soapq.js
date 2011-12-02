@@ -3,6 +3,7 @@
  *   the soapq process.
  */
 var SoapQ = require('../lib/soapq.js').SoapQ;
+var SoapQUser = require('../lib/users.js').SoapQUser;
 
 /**
  * Handles an incoming request.
@@ -47,31 +48,71 @@ exports.request = function(req, res) {
   }
 
   // Rock 'n' roll.
+  var user = new SoapQUser(null, null, params.apiKey);
+  user.on('loaded', function loaded(msg) {
+    user.authenticate();
+  });
+  // Handle user load errors.
+  user.on('dbError', function errorConnectingDB(message) {
+    console.log(message + ' (' + ip + ')');
+    res.send(message, 500);
+  });
+
+  // Handle any errors and respond.
+  user.on('errorAuthenticating', function errorAuthenticating(message) {
+    console.log(message + ' (' + params.apiKey + ')');
+    res.send(message, 401);
+  });
+
+  // Respond to the incoming request and start the API request job.
+  user.on('authenticated', function authenticated(msg) {
+    res.send('processing request (' + params.requestKey + ')');
+    request(params);
+  });
+};
+
+/**
+ * Validates parameters for an incoming request.
+ *
+ * @param {object} params
+ *   The request parameters that will be used to kickoff the process.
+ *
+ * @return {mixed}
+ *   true if the params validate, else an error message.
+ */
+function validate(params) {
+  if (typeof params.apiKey === 'undefined') {
+    return 'Missing API key.';
+  }
+  if (typeof params.requestKey === 'undefined') {
+    return 'Missing request key.';
+  }
+  if (typeof params.callback === 'undefined') {
+    return 'Missing callback.';
+  }
+  if (typeof params.payload === 'undefined') {
+    return 'Missing payload.';
+  }
+
+  return true;
+}
+
+/**
+ * Kicks off the external API request.
+ *
+ * @param {object} params
+ *   The API request parameters.
+ */
+function request(params) {
   var handled = false;
   var soapq = new SoapQ(
-    params.apiKey,
     params.requestKey,
     params.payload,
     params.callback
   );
 
-  // Authenticate against the database.
-  soapq.authenticate();
-  soapq.on('authenticated', function authenticated(msg) {
-    res.send('processing request (' + params.requestKey + ')');
-    // Save the request to the database and kick off the request chain.
-    soapq.save();
-  });
-
-  // Handle any errors and respond.
-  soapq.on('errorAuthenticating', function errorAuthenticating(message) {
-    console.log(message + ' (' + params.apiKey + ')');
-    res.send(message, 401);
-  });
-  soapq.on('errorConnectingDB', function errorConnectingDB(message) {
-    console.log(message + ' (' + ip + ')');
-    res.send(message, 500);
-  });
+  // Save the request to the database and kick off the request chain.
+  soapq.save();
 
   // The request has been saved, send the payload to the remote.
   soapq.on('savedRequest', function savedRequest(message) {
@@ -113,31 +154,5 @@ exports.request = function(req, res) {
   soapq.on('processedRequest', function processedRequest(message) {
     soapq.remove();
   });
-};
-
-/**
- * Validates parameters for an incoming request.
- *
- * @param {object} params
- *   The request parameters that will be used to kickoff the process.
- *
- * @return {mixed}
- *   true if the params validate, else an error message.
- */
-function validate(params) {
-  if (typeof params.apiKey === 'undefined') {
-    return 'Missing API key.';
-  }
-  if (typeof params.requestKey === 'undefined') {
-    return 'Missing request key.';
-  }
-  if (typeof params.callback === 'undefined') {
-    return 'Missing callback.';
-  }
-  if (typeof params.payload === 'undefined') {
-    return 'Missing payload.';
-  }
-
-  return true;
 }
 
