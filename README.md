@@ -1,6 +1,8 @@
 soapq.js
 =======
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/elliotttf/soapq.js.svg)](https://greenkeeper.io/)
+
 A simple node server to process SOAP API requests and callback with the results.
 
 api keys
